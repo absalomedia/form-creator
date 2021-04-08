@@ -13,6 +13,7 @@
     "@chakra-ui/react": "^1.5.0",
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
+    "@fontsource/inter": "^4.2.2",
     "framer-motion": "^4",
     "mongoose": "^5.12.3",
     "next": "10.1.3",

@@ -15,7 +15,9 @@
     "jsx": "preserve",
     "baseUrl": "src",
     "paths": {
-      "@api": ["api"]
+      "@api": ["api"],
+      "@components": ["components"],
+      "@models": ["models"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
