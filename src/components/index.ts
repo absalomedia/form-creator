@@ -1,3 +1,3 @@
 import Layout from './Layout'
-
-export { Layout }
+import Navbar from './Navbar'
+export { Layout, Navbar }

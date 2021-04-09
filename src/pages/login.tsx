@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { Button } from '@chakra-ui/button'
 import { Text } from '@chakra-ui/react'
 import Link from 'next/link'
+import { GetServerSideProps } from 'next'
+import { getSession } from '@auth0/nextjs-auth0'
 
 const Login = () => {
   return (
@@ -36,3 +38,18 @@ const Login = () => {
 }
 
 export default Login
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const user = getSession(req, res)
+
+  if (user) {
+    return {
+      redirect: {
+        destination: '/dashboard',
+        permanent: false,
+      },
+    }
+  }
+
+  return { props: {} }
+}

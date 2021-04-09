@@ -45,7 +45,7 @@ export default function Home() {
             isLoading={isLoading}
             onClick={() => router.push(user ? '/dashboard' : '/login')}
           >
-            Get started now!
+            {user ? `Hi ${user.nickname}, go to dashboard` : 'Get started now!'}
           </Button>
         </Flex>
       </Flex>
