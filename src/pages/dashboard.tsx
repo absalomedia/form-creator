@@ -4,7 +4,7 @@ import React from 'react'
 
 const Dashboard = () => {
   return (
-    <Layout title="Dashboard">
+    <Layout title="Formly | Dashboard">
       <Navbar />
     </Layout>
   )

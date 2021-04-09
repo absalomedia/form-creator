@@ -23,7 +23,7 @@ const Navbar = () => {
             textAlign="center"
             key={i}
           >
-            <Link href={el.text}>{el.text}</Link>
+            <Link href={el.link}>{el.text}</Link>
           </Text>
         ))}
 
@@ -47,8 +47,8 @@ const links = [
     link: '/dashboard',
   },
   {
-    text: 'Statistic',
-    link: '/statistic',
+    text: 'Statistics',
+    link: '/statistics',
   },
   {
     text: 'Create new form',

@@ -18,7 +18,6 @@ type Input =
   | 'email'
   | 'number'
   | 'radio'
-  | 'select'
   | 'text'
   | 'textarea'
 
@@ -51,11 +50,7 @@ export const FormField = new Schema<IFormField, FormFieldModel>({
   options: {
     type: [Option],
     required: function (this: IFormField) {
-      return (
-        this.fieldType === 'checkbox' ||
-        this.fieldType === 'select' ||
-        this.fieldType === 'radio'
-      )
+      return this.fieldType === 'checkbox' || this.fieldType === 'radio'
     },
   },
   placeholder: { type: String, required: false },

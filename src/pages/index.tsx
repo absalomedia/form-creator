@@ -10,7 +10,7 @@ export default function Home() {
   const router = useRouter()
 
   return (
-    <Layout title="Home">
+    <Layout title="Formly | Home">
       <Flex
         w="100%"
         minHeight="100vh"

@@ -10,7 +10,7 @@ import { getSession } from '@auth0/nextjs-auth0'
 
 const Login = () => {
   return (
-    <Layout title="Login">
+    <Layout title="Formly | Login">
       <Flex minH="100vh" flexDir="column">
         <Box p={5}>
           <Image src="/logo.png" alt="logo" width="150" height="150" />
