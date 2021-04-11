@@ -9,10 +9,17 @@ import {
   DrawerHeader,
   DrawerOverlay,
   useDisclosure,
+  Box,
+  Text,
 } from '@chakra-ui/react'
+import { Input } from 'models/FormField'
 import React from 'react'
 
-const inputTypes = [
+interface Props {
+  handleClick: (type: Input) => void
+}
+
+const inputTypes: { fieldType: Input; description: string }[] = [
   { fieldType: 'text', description: 'Short text input' },
   { fieldType: 'checkbox', description: 'Many options select' },
   { fieldType: 'date', description: 'Date picker' },
@@ -22,7 +29,7 @@ const inputTypes = [
   { fieldType: 'textarea', description: 'Long text input' },
 ]
 
-const InputsDrawer = () => {
+const InputsDrawer = ({ handleClick }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
@@ -35,7 +42,26 @@ const InputsDrawer = () => {
           <DrawerContent>
             <DrawerCloseButton />
             <DrawerHeader>Add the input:</DrawerHeader>
-            <DrawerBody></DrawerBody>
+            <DrawerBody>
+              {inputTypes.map((type, i) => (
+                <Box
+                  key={i}
+                  padding="10px 5px"
+                  cursor="pointer"
+                  onClick={() => {
+                    handleClick(type.fieldType)
+                    onClose()
+                  }}
+                >
+                  <Text fontSize="20px" textTransform="capitalize">
+                    {type.fieldType}
+                  </Text>
+                  <Text fontSize="14px" textTransform="capitalize">
+                    {type.description}
+                  </Text>
+                </Box>
+              ))}
+            </DrawerBody>
             <DrawerFooter>
               <Button colorScheme="facebook" onClick={onClose} size="lg">
                 Close

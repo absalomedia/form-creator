@@ -7,12 +7,11 @@ const InputArr = [
   'email',
   'number',
   'radio',
-  'select',
   'text',
   'textarea',
 ]
 
-type Input =
+export type Input =
   | 'checkbox'
   | 'date'
   | 'email'
@@ -21,7 +20,7 @@ type Input =
   | 'text'
   | 'textarea'
 
-interface IFormField extends Document {
+export interface IFormField extends Document {
   label: string
   required: boolean
   fieldType: Input
@@ -30,7 +29,6 @@ interface IFormField extends Document {
   maxLength?: string
   max?: number
   min?: number
-  autofocus?: boolean
   regexp?: RegExp
   placeholder?: string
 }
@@ -42,7 +40,6 @@ export const FormField = new Schema<IFormField, FormFieldModel>({
   name: { type: String, required: true },
   required: { type: Boolean, required: true },
   fieldType: { type: String, required: true, default: 'text', enum: InputArr },
-  autofocus: { type: Boolean, default: false },
   regexp: { type: RegExp, required: false },
   min: { type: Number, required: false },
   max: { type: Number, required: false },
