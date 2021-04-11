@@ -16,6 +16,7 @@ interface Props {
   handleLabelChange: (id: string, e: string) => void
   handleCheckboxChange: (id: string, e: boolean) => void
   handlePlaceholderChange: (id: string, e: string) => void
+  handleAddingNewOption: (id: string, option: string) => void
 }
 
 const InputDisplay: React.FC<Props> = ({
@@ -23,11 +24,8 @@ const InputDisplay: React.FC<Props> = ({
   handleLabelChange,
   handleCheckboxChange,
   handlePlaceholderChange,
+  handleAddingNewOption,
 }): JSX.Element => {
-  const handleAddOption = (newOption: string) => {
-    console.log(newOption)
-  }
-
   return (
     <Box width="100%" mt="50px">
       {inputs.map((input) => (
@@ -50,7 +48,10 @@ const InputDisplay: React.FC<Props> = ({
               }
             />
           ) : (
-            <OptionInput handleAddOption={handleAddOption} />
+            <OptionInput
+              handleAddOption={handleAddingNewOption}
+              id={input.id}
+            />
           )}
           <Checkbox
             mt="20px"

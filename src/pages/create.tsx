@@ -1,7 +1,7 @@
 import { Flex, Text } from '@chakra-ui/layout'
 import { InputsDrawer, Layout, Navbar, InputDisplay } from '@components'
 import { Input } from 'models/FormField'
-import React, { ChangeEvent, useState } from 'react'
+import React, { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 export interface IFormField {
   id: string
@@ -57,6 +57,19 @@ const CreatePage = () => {
     })
   }
 
+  const handleAddingNewOption = (id: string, option: string) => {
+    setForm((prev) => {
+      const index = prev.findIndex((el) => el.id === id)
+      prev[index] = {
+        ...prev[index],
+        options: prev[index].options
+          ? [...prev[index].options, option]
+          : [option],
+      }
+      return [...prev]
+    })
+  }
+
   return (
     <Layout title="Formly | New form">
       <Navbar />
@@ -72,6 +85,7 @@ const CreatePage = () => {
           handleLabelChange={handleLabelChange}
           handleCheckboxChange={handleCheckboxChange}
           handlePlaceholderChange={handlePlaceholderChange}
+          handleAddingNewOption={handleAddingNewOption}
         />
       </Flex>
     </Layout>
