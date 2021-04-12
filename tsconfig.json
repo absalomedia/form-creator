@@ -17,7 +17,8 @@
     "paths": {
       "@api": ["api"],
       "@components": ["components"],
-      "@models": ["models"]
+      "@models": ["models"],
+      "@store": ["store"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

@@ -1,14 +1,14 @@
 import React from 'react'
 import { Box, Button, Input } from '@chakra-ui/react'
 import { useState } from 'react'
+import { handleAddingNewOption, useForm } from '@store'
 
 interface Props {
-  handleAddOption: (id: string, value: string) => void
   id: string
 }
-const OptionInput = ({ handleAddOption, id }: Props) => {
+const OptionInput = ({ id }: Props) => {
   const [option, setOption] = useState('')
-
+  const { dispatch } = useForm()
   return (
     <Box w="100%" mt="10px">
       <Input
@@ -17,7 +17,13 @@ const OptionInput = ({ handleAddOption, id }: Props) => {
         onChange={(e) => setOption(e.target.value)}
         placeholder="Pass avaliable options there"
       />
-      <Button onClick={() => handleAddOption(id, option)} mt="10px">
+      <Button
+        onClick={() => {
+          dispatch(handleAddingNewOption(id, option))
+          setOption('')
+        }}
+        mt="10px"
+      >
         Add option
       </Button>
     </Box>

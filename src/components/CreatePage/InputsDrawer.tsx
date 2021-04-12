@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Button,
   Drawer,
@@ -12,12 +11,9 @@ import {
   Box,
   Text,
 } from '@chakra-ui/react'
+import { addNewInput, useForm } from '@store'
 import { Input } from 'models/FormField'
 import React from 'react'
-
-interface Props {
-  handleClick: (type: Input) => void
-}
 
 const inputTypes: { fieldType: Input; description: string }[] = [
   { fieldType: 'text', description: 'Short text input' },
@@ -29,8 +25,9 @@ const inputTypes: { fieldType: Input; description: string }[] = [
   { fieldType: 'textarea', description: 'Long text input' },
 ]
 
-const InputsDrawer = ({ handleClick }: Props) => {
+const InputsDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { dispatch } = useForm()
 
   return (
     <>
@@ -49,7 +46,7 @@ const InputsDrawer = ({ handleClick }: Props) => {
                   padding="10px 5px"
                   cursor="pointer"
                   onClick={() => {
-                    handleClick(type.fieldType)
+                    dispatch(addNewInput(type.fieldType))
                     onClose()
                   }}
                 >
