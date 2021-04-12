@@ -1,6 +1,8 @@
 import { Input } from 'models/FormField'
 import {
   CHECKBOX_CHANGE,
+  DELETE_INPUT,
+  DELETE_OPTION,
   LABEL_CHANGE,
   NEW_INPUT,
   OPTION_ADD,
@@ -51,5 +53,19 @@ export const handleAddingNewOption = (id: string, option: string) => {
       id,
       option,
     },
+  }
+}
+
+export const deleteInput = (id: string) => {
+  return {
+    type: DELETE_INPUT as typeof DELETE_INPUT,
+    payload: { id },
+  }
+}
+
+export const deleteOption = (id: string, option: string) => {
+  return {
+    type: DELETE_OPTION as typeof DELETE_OPTION,
+    payload: { id, option },
   }
 }

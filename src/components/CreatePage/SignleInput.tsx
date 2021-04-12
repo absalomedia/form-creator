@@ -18,6 +18,7 @@ import {
   useForm,
 } from '@store'
 import React from 'react'
+import { deleteInput, deleteOption } from 'store/actions'
 interface Props {
   input: IFormField
 }
@@ -30,6 +31,8 @@ const SignleInput = ({ input }: Props) => {
         alignSelf="flex-end"
         justifyContent="space-between"
         alignItems="center"
+        cursor="pointer"
+        onClick={() => dispatch(deleteInput(input.id))}
       >
         Delete Input
         <DeleteIcon ml="5px" />
@@ -64,8 +67,11 @@ const SignleInput = ({ input }: Props) => {
                 alignItems="center"
                 m="5px 0"
               >
-                <Checkbox>{option}</Checkbox>
-                <DeleteIcon />
+                <Checkbox disabled>{option}</Checkbox>
+                <DeleteIcon
+                  cursor="pointer"
+                  onClick={() => dispatch(deleteOption(input.id, option))}
+                />
               </Flex>
             ))}
           </Flex>
@@ -78,8 +84,11 @@ const SignleInput = ({ input }: Props) => {
                 alignItems="center"
                 m="5px 0"
               >
-                <Radio>{option}</Radio>
-                <DeleteIcon />
+                <Radio disabled>{option}</Radio>
+                <DeleteIcon
+                  cursor="pointer"
+                  onClick={() => dispatch(deleteOption(input.id, option))}
+                />
               </Flex>
             ))}
           </Flex>

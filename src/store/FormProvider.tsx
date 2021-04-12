@@ -4,6 +4,8 @@ import { useReducer } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import {
   CHECKBOX_CHANGE,
+  DELETE_INPUT,
+  DELETE_OPTION,
   LABEL_CHANGE,
   NEW_INPUT,
   OPTION_ADD,
@@ -33,6 +35,8 @@ type Actions =
       payload: { id: string; inputValue: string }
     }
   | { type: typeof OPTION_ADD; payload: { id: string; option: string } }
+  | { type: typeof DELETE_INPUT; payload: { id: string } }
+  | { type: typeof DELETE_OPTION; payload: { id: string; option: string } }
 
 const reducer = (state: IFormField[], action: Actions) => {
   switch (action.type) {
@@ -82,6 +86,19 @@ const reducer = (state: IFormField[], action: Actions) => {
         ...prevState[index],
         options: [...options, action.payload.option],
       }
+      return [...prevState]
+    }
+    case DELETE_INPUT: {
+      const newState = state.filter((input) => input.id !== action.payload.id)
+      return [...newState]
+    }
+    case DELETE_OPTION: {
+      const prevState = [...state]
+      const index = prevState.findIndex((el) => el.id === action.payload.id)
+      prevState[index].options = prevState[index].options?.filter(
+        (el) => el !== action.payload.option
+      )
+
       return [...prevState]
     }
     default:

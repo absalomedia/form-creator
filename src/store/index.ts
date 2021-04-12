@@ -5,6 +5,7 @@ import {
   handleLabelChange,
   handlePlaceholderChange,
   handleAddingNewOption,
+  deleteOption,
 } from './actions'
 
 export {
@@ -15,5 +16,6 @@ export {
   handleLabelChange,
   handlePlaceholderChange,
   handleAddingNewOption,
+  deleteOption,
 }
 export type { IFormField }

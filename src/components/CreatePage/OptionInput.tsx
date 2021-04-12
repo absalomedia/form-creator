@@ -19,8 +19,10 @@ const OptionInput = ({ id }: Props) => {
       />
       <Button
         onClick={() => {
-          dispatch(handleAddingNewOption(id, option))
-          setOption('')
+          if (option) {
+            dispatch(handleAddingNewOption(id, option))
+            setOption('')
+          }
         }}
         mt="10px"
       >
