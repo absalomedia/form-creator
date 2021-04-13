@@ -26,7 +26,6 @@ export interface IFormField extends Document {
   fieldType: Input
   options?: IOption[]
   name: string
-  maxLength?: string
   max?: number
   min?: number
   regexp?: RegExp

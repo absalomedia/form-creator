@@ -7,6 +7,7 @@ import {
   Divider,
   Flex,
   Radio,
+  Text,
 } from '@chakra-ui/react'
 import { DeleteIcon } from '@chakra-ui/icons'
 import { OptionInput } from '@components'
@@ -19,6 +20,7 @@ import {
 } from '@store'
 import React from 'react'
 import { deleteInput, deleteOption } from 'store/actions'
+import ValidationPopover from './ValidationPopover'
 interface Props {
   input: IFormField
 }
@@ -27,15 +29,18 @@ const SignleInput = ({ input }: Props) => {
 
   return (
     <Flex maxW="400px" mt="30px" flexDir="column">
-      <Flex
-        alignSelf="flex-end"
-        justifyContent="space-between"
-        alignItems="center"
-        cursor="pointer"
-        onClick={() => dispatch(deleteInput(input.id))}
-      >
-        Delete Input
-        <DeleteIcon ml="5px" />
+      <Flex justifyContent="space-between" mb="20px">
+        <Text fontWeight={700}>Input type: {input.fieldType}</Text>
+        <Flex
+          alignSelf="flex-end"
+          justifyContent="space-between"
+          alignItems="center"
+          cursor="pointer"
+          onClick={() => dispatch(deleteInput(input.id))}
+        >
+          Delete Input
+          <DeleteIcon ml="5px" />
+        </Flex>
       </Flex>
       <Editable
         value={input.label}
@@ -102,6 +107,9 @@ const SignleInput = ({ input }: Props) => {
       >
         Mark as required?
       </Checkbox>
+      {input.fieldType !== 'checkbox' && input.fieldType !== 'radio' && (
+        <ValidationPopover input={input} />
+      )}
       <Divider colorScheme="facebook" mt="30px" />
     </Flex>
   )
