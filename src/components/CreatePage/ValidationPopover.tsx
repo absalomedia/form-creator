@@ -10,8 +10,13 @@ import {
   PopoverTrigger,
   Text,
   Input,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
 } from '@chakra-ui/react'
-import { IFormField } from '@store'
+import { IFormField, updateValidation, useForm } from '@store'
 import React from 'react'
 import { useState } from 'react'
 
@@ -20,9 +25,14 @@ interface Props {
 }
 
 const ValidationPopover = ({ input }: Props) => {
-  const [regex, setRegex] = useState('')
-  const [min, setMin] = useState('')
-  const [max, setMax] = useState('')
+  const [regexp, setRegexp] = useState(input.regexp || '')
+  const [min, setMin] = useState(input.min || '')
+  const [max, setMax] = useState(input.max || '')
+  const { dispatch } = useForm()
+
+  const handleValidationChange = () => {
+    dispatch(updateValidation(input.id, { regexp, min, max }))
+  }
 
   return (
     <Popover>
@@ -48,8 +58,8 @@ const ValidationPopover = ({ input }: Props) => {
               </Text>
               <Input
                 type="text"
-                value={regex}
-                onChange={(e) => setRegex(e.target.value)}
+                value={regexp}
+                onChange={(e) => setRegexp(e.target.value)}
               />
             </Flex>
           )}
@@ -64,11 +74,21 @@ const ValidationPopover = ({ input }: Props) => {
                 <Text mr="10px" w="60px">
                   Min
                 </Text>
-                <Input
-                  type={input.fieldType === 'date' ? 'date' : 'number'}
-                  value={min}
-                  onChange={(e) => setMin(e.target.value)}
-                />
+                {input.fieldType === 'date' ? (
+                  <Input
+                    type="date"
+                    value={min}
+                    onChange={(e) => setMin(e.target.value)}
+                  />
+                ) : (
+                  <NumberInput value={min} onChange={(e) => setMin(e)}>
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                )}
               </Flex>
               <Flex
                 w="100%"
@@ -79,15 +99,27 @@ const ValidationPopover = ({ input }: Props) => {
                 <Text mr="10px" w="60px">
                   Max:
                 </Text>
-                <Input
-                  type={input.fieldType === 'date' ? 'date' : 'number'}
-                  value={max}
-                  onChange={(e) => setMax(e.target.value)}
-                />
+                {input.fieldType === 'date' ? (
+                  <Input
+                    type="date"
+                    value={max}
+                    onChange={(e) => setMax(e.target.value)}
+                  />
+                ) : (
+                  <NumberInput value={max} onChange={(e) => setMax(e)}>
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                )}
               </Flex>
             </>
           )}
-          <Button mt="20px">Save</Button>
+          <Button mt="20px" onClick={() => handleValidationChange()}>
+            Save
+          </Button>
         </PopoverBody>
       </PopoverContent>
     </Popover>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { Input } from 'models/FormField'
 import React, { createContext, useContext } from 'react'
 import { useReducer } from 'react'
@@ -10,6 +11,7 @@ import {
   NEW_INPUT,
   OPTION_ADD,
   PLACEHOLDER_CHANGE,
+  UPDATE_VALIDATION,
 } from './constants'
 
 export interface IFormField {
@@ -19,10 +21,9 @@ export interface IFormField {
   fieldType: Input
   options?: string[]
   name: string
-  maxLength?: string
-  max?: number
-  min?: number
-  regexp?: RegExp
+  max?: string
+  min?: string
+  regexp?: string
   placeholder?: string
 }
 
@@ -37,6 +38,10 @@ type Actions =
   | { type: typeof OPTION_ADD; payload: { id: string; option: string } }
   | { type: typeof DELETE_INPUT; payload: { id: string } }
   | { type: typeof DELETE_OPTION; payload: { id: string; option: string } }
+  | {
+      type: typeof UPDATE_VALIDATION
+      payload: { id: string; regexp: string; min: string; max: string }
+    }
 
 const reducer = (state: IFormField[], action: Actions) => {
   switch (action.type) {
@@ -92,6 +97,18 @@ const reducer = (state: IFormField[], action: Actions) => {
       const newState = state.filter((input) => input.id !== action.payload.id)
       return [...newState]
     }
+    case UPDATE_VALIDATION: {
+      const prevState = [...state]
+      const index = prevState.findIndex((el) => el.id === action.payload.id)
+      prevState[index] = {
+        ...prevState[index],
+        regexp: action.payload.regexp,
+        min: action.payload.min,
+        max: action.payload.max,
+      }
+
+      return [...prevState]
+    }
     case DELETE_OPTION: {
       const prevState = [...state]
       const index = prevState.findIndex((el) => el.id === action.payload.id)
@@ -105,20 +122,49 @@ const reducer = (state: IFormField[], action: Actions) => {
       return [...state]
   }
 }
+interface IFormData {
+  title: string
+  description: string
+  completeTitle: string
+  completeDescription: string
+  dateOfExpire: string
+}
 
 const FormCtx = createContext<{
   form: IFormField[]
   dispatch: React.Dispatch<Actions>
+  handleCreateNewForm: (data: IFormData) => Promise<void>
 }>({
   form: [] as IFormField[],
   dispatch: () => null,
+  handleCreateNewForm: async () => {},
 })
 
 const FormCtxProvider: React.FC = ({ children }) => {
   const [form, dispatch] = useReducer(reducer, [] as IFormField[])
 
+  const handleCreateNewForm = async (data: IFormData) => {
+    try {
+      const response = await fetch('/api/form', {
+        body: JSON.stringify({ ...data, formFields: form }),
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'content-type': 'application/json',
+        },
+      })
+
+      const createdForm = await response.json()
+      console.log(createdForm)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
-    <FormCtx.Provider value={{ form, dispatch }}>{children}</FormCtx.Provider>
+    <FormCtx.Provider value={{ form, dispatch, handleCreateNewForm }}>
+      {children}
+    </FormCtx.Provider>
   )
 }
 

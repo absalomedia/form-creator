@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose'
+import { Schema, model, Document, models } from 'mongoose'
 import { FormField } from './FormField'
 
 interface IForm extends Document {
@@ -6,7 +6,7 @@ interface IForm extends Document {
   description: string
   completeTitle: string
   completeDescription: string
-  dateOfExipre: Date
+  dateOfExpire: Date
   userEmail: string
 }
 
@@ -17,10 +17,10 @@ const FormSchema = new Schema(
     description: { type: String, required: true },
     completeTitle: { type: String, required: true },
     completeDescription: { type: String, required: true },
-    dateOfExipre: { type: Date, required: true },
+    dateOfExpire: { type: Date, required: true },
     fields: { type: [FormField], required: true },
   },
   { timestamps: true }
 )
 
-export default model<IForm>('Form', FormSchema)
+export default models.Form || model<IForm>('Form', FormSchema)

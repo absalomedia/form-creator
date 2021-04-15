@@ -7,6 +7,7 @@ import {
   NEW_INPUT,
   OPTION_ADD,
   PLACEHOLDER_CHANGE,
+  UPDATE_VALIDATION,
 } from './constants'
 
 export const addNewInput = (inputType: Input) => {
@@ -67,5 +68,15 @@ export const deleteOption = (id: string, option: string) => {
   return {
     type: DELETE_OPTION as typeof DELETE_OPTION,
     payload: { id, option },
+  }
+}
+
+export const updateValidation = (
+  id: string,
+  { regexp, min, max }: { regexp: string; min: string; max: string }
+) => {
+  return {
+    type: UPDATE_VALIDATION as typeof UPDATE_VALIDATION,
+    payload: { id, regexp, min, max },
   }
 }

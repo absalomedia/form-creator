@@ -1,11 +1,11 @@
-import { Schema, Document, model } from 'mongoose'
+import { Schema, Document, model, models } from 'mongoose'
 
 export interface IOption extends Document {
   value: string
 }
 
-export const Option = new Schema({
+export const OptionModel = new Schema({
   value: { type: String, required: true },
 })
 
-export default model<IOption>('Option', Option)
+export default models.OptionModel || model<IOption>('OptionModel', OptionModel)
