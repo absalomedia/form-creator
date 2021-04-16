@@ -1,4 +1,4 @@
-import { Schema, model, Document, models } from 'mongoose'
+import { Schema, model, Document, models, Model } from 'mongoose'
 import { FormField } from './FormField'
 
 interface IForm extends Document {
@@ -23,4 +23,4 @@ const FormSchema = new Schema(
   { timestamps: true }
 )
 
-export default models.Form || model<IForm>('Form', FormSchema)
+export default (models.Form as Model<IForm>) || model<IForm>('Form', FormSchema)

@@ -70,7 +70,7 @@ const createForm = async (
     return newField
   })
 
-  const newForm = await new Form({
+  await new Form({
     title,
     description,
     completeTitle,
@@ -83,4 +83,35 @@ const createForm = async (
   res.json({ success: true })
 }
 
+export const getForms = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  _next: NextHandler
+) => {
+  const user = getSession(req, res) as Session
+
+  if (!user) {
+    throw new ErrorWithHttpCode('User unauthorized', 401)
+  }
+
+  const data = await Form.aggregate([
+    { $match: { userEmail: user.user.email } },
+    {
+      $project: {
+        fields: { $size: '$fields' },
+        title: 1,
+        description: 1,
+        createdAt: 1,
+        dateOfExpire: 1,
+      },
+    },
+  ])
+
+  res.json({ forms: data })
+}
+
 export { createForm }
+
+// find({ userEmail: user.user.email })
+//     .sort('-createdAt')
+//     .select('-fields')
