@@ -13,7 +13,7 @@ const ErrorInfo = () => {
       >
         Unexpected error occured
       </Heading>
-      <Image src="error.svg" width={500} height={500} alt="error" />
+      <Image src="/error.svg" width={500} height={500} alt="error" />
     </Center>
   )
 }
