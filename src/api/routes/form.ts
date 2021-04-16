@@ -111,7 +111,3 @@ export const getForms = async (
 }
 
 export { createForm }
-
-// find({ userEmail: user.user.email })
-//     .sort('-createdAt')
-//     .select('-fields')

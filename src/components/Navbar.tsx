@@ -47,10 +47,6 @@ const links = [
     link: '/dashboard',
   },
   {
-    text: 'Statistics',
-    link: '/statistics',
-  },
-  {
     text: 'Create new form',
     link: '/create',
   },
