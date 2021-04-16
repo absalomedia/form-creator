@@ -3,12 +3,11 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { NextHandler } from 'next-connect'
 
 class ErrorWithHttpCode extends Error {
-  constructor(message: string, private _code: number) {
-    super(message)
-  }
+  code: number
 
-  get code() {
-    return this._code
+  constructor(message: string, code: number) {
+    super(message)
+    this.code = code
   }
 }
 
@@ -19,7 +18,7 @@ const errorHandler = (
   _next: NextHandler
 ) => {
   res
-    .status(error.code | 500)
+    .status(error.code || 500)
     .send({ message: error.message || 'Internal server error' })
 }
 

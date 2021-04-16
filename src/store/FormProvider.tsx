@@ -133,38 +133,16 @@ interface IFormData {
 const FormCtx = createContext<{
   form: IFormField[]
   dispatch: React.Dispatch<Actions>
-  handleCreateNewForm: (data: IFormData) => Promise<void>
 }>({
   form: [] as IFormField[],
   dispatch: () => null,
-  handleCreateNewForm: async () => {},
 })
 
 const FormCtxProvider: React.FC = ({ children }) => {
   const [form, dispatch] = useReducer(reducer, [] as IFormField[])
 
-  const handleCreateNewForm = async (data: IFormData) => {
-    try {
-      const response = await fetch('/api/form', {
-        body: JSON.stringify({ ...data, formFields: form }),
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'content-type': 'application/json',
-        },
-      })
-
-      const createdForm = await response.json()
-      console.log(createdForm)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   return (
-    <FormCtx.Provider value={{ form, dispatch, handleCreateNewForm }}>
-      {children}
-    </FormCtx.Provider>
+    <FormCtx.Provider value={{ form, dispatch }}>{children}</FormCtx.Provider>
   )
 }
 

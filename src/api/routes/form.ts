@@ -7,6 +7,8 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { NextHandler } from 'next-connect'
 import { getSession, Session } from '@auth0/nextjs-auth0'
 import { ErrorWithHttpCode } from 'api/middleware/error'
+import { assert } from 'superstruct'
+import FormValidation from 'api/validation/form'
 
 const createForm = async (
   req: NextApiRequest,
@@ -21,6 +23,25 @@ const createForm = async (
     completeDescription,
     dateOfExpire,
   } = req.body
+
+  try {
+    assert(
+      {
+        formFields,
+        title,
+        description,
+        completeDescription,
+        completeTitle,
+        dateOfExpire,
+      },
+      FormValidation
+    )
+  } catch (error) {
+    throw new ErrorWithHttpCode(
+      'Form properties does not match given schema',
+      400
+    )
+  }
 
   const user = getSession(req, res) as Session
 
@@ -59,7 +80,7 @@ const createForm = async (
     userEmail: user.user.email,
   }).save()
 
-  res.json({ newForm })
+  res.json({ success: true })
 }
 
 export { createForm }

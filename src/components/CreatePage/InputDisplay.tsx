@@ -4,6 +4,7 @@ import {
   Button,
   Center,
   Flex,
+  Heading,
   Input,
   Text,
   Textarea,
@@ -12,14 +13,50 @@ import { useForm } from '@store'
 import SignleInput from './SignleInput'
 import { useState } from 'react'
 import Img from 'next/image'
+import { useRouter } from 'next/dist/client/router'
 
 const InputDisplay: React.FC = (): JSX.Element => {
-  const { form, handleCreateNewForm } = useForm()
+  const { form } = useForm()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [completeTitle, setCompleteTitle] = useState('')
   const [completeDescription, setCompleteDescription] = useState('')
   const [dateOfExpire, setDateOfExpire] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const router = useRouter()
+
+  const handleCreateNewForm = async () => {
+    setLoading(true)
+    setError('')
+    try {
+      const response = await fetch('/api/form', {
+        body: JSON.stringify({
+          title,
+          description,
+          completeTitle,
+          completeDescription,
+          dateOfExpire,
+          formFields: form,
+        }),
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'content-type': 'application/json',
+        },
+      })
+
+      if (!response.ok) {
+        throw new Error('Error occured, check if all fields were fully fufiled')
+      }
+
+      setLoading(false)
+      router.push('/dashboard')
+    } catch (error) {
+      setError(error.message)
+      setLoading(false)
+    }
+  }
 
   return (
     <>
@@ -83,8 +120,13 @@ const InputDisplay: React.FC = (): JSX.Element => {
           />
         </Box>
       </Flex>
-
+      {error && (
+        <Heading margin="100px auto 0 auto" color="red.500" fontSize="28px">
+          {error}
+        </Heading>
+      )}
       <Button
+        isLoading={loading}
         isDisabled={
           form.length === 0 ||
           !title ||
@@ -94,15 +136,9 @@ const InputDisplay: React.FC = (): JSX.Element => {
           !dateOfExpire
         }
         maxWidth="fit-content"
-        margin="100px auto"
-        onClick={async () => {
-          handleCreateNewForm({
-            title,
-            description,
-            completeDescription,
-            completeTitle,
-            dateOfExpire,
-          })
+        margin="50px auto"
+        onClick={() => {
+          handleCreateNewForm()
         }}
       >
         Create
