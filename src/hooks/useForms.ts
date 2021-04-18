@@ -1,6 +1,6 @@
 import useSWR from 'swr'
 
-interface IForm {
+export interface IForm {
   _id: string
   createdAt: string
   dateOfExpire: string
@@ -10,7 +10,7 @@ interface IForm {
 }
 
 const useForms = () => {
-  const { data, error } = useSWR<IForm[]>('/api/get-forms')
+  const { data, error } = useSWR<{ forms: IForm[] }>('/api/get-forms')
 
   return {
     forms: data,

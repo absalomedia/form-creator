@@ -1,3 +1,4 @@
-import useForms from './useForms'
+import useForms, { IForm } from './useForms'
 
 export { useForms }
+export type { IForm }

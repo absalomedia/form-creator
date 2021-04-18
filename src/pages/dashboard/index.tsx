@@ -8,7 +8,6 @@ const Dashboard = () => {
   const { isLoading, isError, forms } = useForms()
 
   console.log(forms)
-
   return (
     <Layout title="Formly | Dashboard">
       <Navbar />
@@ -17,7 +16,12 @@ const Dashboard = () => {
           <Spinner colorScheme="facebook" size="lg" />
         </Center>
       )}
-      {forms && (forms.length === 0 ? <NoFormsInfo /> : <AllForms />)}
+      {forms &&
+        (forms.forms.length === 0 ? (
+          <NoFormsInfo />
+        ) : (
+          <AllForms forms={forms.forms} />
+        ))}
       {isError && <ErrorInfo />}
     </Layout>
   )
