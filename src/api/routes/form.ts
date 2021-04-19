@@ -37,6 +37,7 @@ const createForm = async (
       FormValidation
     )
   } catch (error) {
+    console.log(error)
     throw new ErrorWithHttpCode(
       'Form properties does not match given schema',
       400
@@ -54,7 +55,7 @@ const createForm = async (
 
     const newField = new FormField({
       ...rest,
-      name: rest.label,
+      name: rest.label.toLowerCase().split('').join('-'),
       require: required,
       id,
     })
@@ -83,7 +84,7 @@ const createForm = async (
   res.json({ success: true })
 }
 
-export const getForms = async (
+const getForms = async (
   req: NextApiRequest,
   res: NextApiResponse,
   _next: NextHandler
@@ -110,4 +111,26 @@ export const getForms = async (
   res.json({ forms: data })
 }
 
-export { createForm }
+interface RequestWithParams extends NextApiRequest {
+  params: {
+    [key: string]: string
+  }
+}
+
+const getSingleForm = async (
+  req: RequestWithParams,
+  res: NextApiResponse,
+  _next: NextHandler
+) => {
+  const { id } = req.params
+
+  const form = await Form.findById(id).select({ userEmail: 0 })
+
+  if (!form) {
+    throw new ErrorWithHttpCode('Cannot find form', 404)
+  }
+
+  res.json({ form })
+}
+
+export { createForm, getForms, getSingleForm }

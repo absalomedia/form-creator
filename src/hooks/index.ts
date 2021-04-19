@@ -1,4 +1,5 @@
 import useForms, { IForm } from './useForms'
+import useSingleForm, { IOption } from './useSingleForm'
 
-export { useForms }
-export type { IForm }
+export { useForms, useSingleForm }
+export type { IForm, IOption }

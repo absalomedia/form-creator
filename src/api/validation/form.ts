@@ -1,11 +1,11 @@
 import { array, boolean, object, optional, string, size } from 'superstruct'
 
 const FormValidation = object({
-  title: size(string(), 1),
-  description: size(string(), 1),
-  completeTitle: size(string(), 1),
-  completeDescription: size(string(), 1),
-  dateOfExpire: size(string(), 1),
+  title: size(string(), 1, 100),
+  description: size(string(), 1, 500),
+  completeTitle: size(string(), 1, 100),
+  completeDescription: size(string(), 1, 500),
+  dateOfExpire: size(string(), 1, 10),
   formFields: array(
     object({
       id: string(),

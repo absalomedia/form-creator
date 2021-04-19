@@ -40,9 +40,21 @@ const AllForms = ({ forms }: Props) => {
                 <b>{dayjs(form.dateOfExpire).format('DD-MM-YYYY')}</b>
               </Text>
             </Box>
-            <Link href={`/dashboard/${form._id}`}>
-              <Button>Checkout statistics</Button>
-            </Link>
+            <Box d="flex" flexDir="column">
+              <Link href={`/dashboard/${form._id}`}>
+                <Button marginBottom="20px">Checkout statistics</Button>
+              </Link>
+              <Button
+                onClick={() => {
+                  typeof window !== 'undefined' &&
+                    window.navigator.clipboard.writeText(
+                      `http://localhost:3000/forms/${form._id}`
+                    )
+                }}
+              >
+                Copy link
+              </Button>
+            </Box>
           </Flex>
         ))}
     </Flex>

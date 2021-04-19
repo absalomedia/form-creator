@@ -6,6 +6,7 @@ import OptionInput from './CreatePage/OptionInput'
 import AllForms from './Dashboard/AllForms'
 import NoFormsInfo from './Dashboard/NoFormsInfo'
 import ErrorInfo from './Dashboard/ErrorInfo'
+import FormFill from './Form/FormFill'
 
 export {
   Layout,
@@ -16,4 +17,5 @@ export {
   AllForms,
   NoFormsInfo,
   ErrorInfo,
+  FormFill,
 }
