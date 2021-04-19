@@ -55,7 +55,7 @@ const createForm = async (
 
     const newField = new FormField({
       ...rest,
-      name: rest.label.toLowerCase().split('').join('-'),
+      name: rest.label.toLowerCase().split(' ').join('-'),
       require: required,
       id,
     })

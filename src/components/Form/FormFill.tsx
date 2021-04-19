@@ -1,4 +1,5 @@
 import {
+  CheckboxGroup,
   Flex,
   FormControl,
   FormLabel,
@@ -16,7 +17,7 @@ interface Props {
 
 const FormFill = ({ id }: Props) => {
   const { form, isError, isLoading } = useSingleForm(id)
-  console.log(form)
+
   const Form = () => {
     const [formFieldsValues, setFormFieldValues] = useState({
       ...form?.form.fields.reduce((acc, val) => {
@@ -42,6 +43,8 @@ const FormFill = ({ id }: Props) => {
       }))
     }
 
+    console.log(formFieldsValues)
+
     return (
       <div>
         {form?.form.fields.map((el) =>
@@ -63,18 +66,25 @@ const FormFill = ({ id }: Props) => {
             </FormControl>
           ) : el.fieldType === 'radio' ? (
             <RadioGroup
+              key={el.id}
               onChange={(e) =>
-                setFormFieldValues((prev) => ({ ...prev, [el.fieldType]: e }))
+                setFormFieldValues((prev) => ({ ...prev, [el.name]: e }))
               }
               value={formFieldsValues.name as string}
               name={el.fieldType}
+              defaultValue={(el.options as IOption[])[0].value}
             >
-              <Stack direction="row">
-                <Radio value="1">First</Radio>
-                <Radio value="2">Second</Radio>
-                <Radio value="3">Third</Radio>
+              <FormLabel>{el.label}</FormLabel>
+              <Stack>
+                {el.options?.map((el) => (
+                  <Radio value={el.value} key={el._id}>
+                    {el.value}
+                  </Radio>
+                ))}
               </Stack>
             </RadioGroup>
+          ) : el.fieldType === 'checkbox' ? (
+            <CheckboxGroup></CheckboxGroup>
           ) : (
             <div>To implement</div>
           )
