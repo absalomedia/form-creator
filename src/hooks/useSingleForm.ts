@@ -6,7 +6,7 @@ export interface IOption {
   value: string
 }
 
-interface ISingleForm {
+export interface ISingleForm {
   _id: string
   title: string
   description: string
@@ -31,7 +31,7 @@ const useSingleForm = (id: string) => {
   const { data, error } = useSWR<{ form: ISingleForm }>(`/api/forms/${id}`)
 
   return {
-    form: data,
+    form: data as { form: ISingleForm },
     isLoading: !data && !error,
     isError: error,
   }
