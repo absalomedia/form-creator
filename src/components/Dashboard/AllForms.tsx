@@ -48,7 +48,7 @@ const AllForms = ({ forms }: Props) => {
                 onClick={() => {
                   typeof window !== 'undefined' &&
                     window.navigator.clipboard.writeText(
-                      `https://form-creator.vercel.app/dashboard/${form._id}`
+                      `https://form-creator.vercel.app/forms/${form._id}`
                     )
                 }}
               >
