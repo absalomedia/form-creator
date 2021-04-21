@@ -111,7 +111,7 @@ const getForms = async (
   res.json({ forms: data })
 }
 
-interface RequestWithParams extends NextApiRequest {
+export interface RequestWithParams extends NextApiRequest {
   params: {
     [key: string]: string
   }

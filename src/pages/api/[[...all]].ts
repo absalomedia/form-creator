@@ -6,6 +6,7 @@ import {
   createForm,
   getForms,
   getSingleForm,
+  createAnswer,
 } from '@api'
 
 const handler = nc({ attachParams: true, onError: errorHandler })
@@ -13,5 +14,6 @@ const handler = nc({ attachParams: true, onError: errorHandler })
   .get('/api/get-forms', asyncHandler(getForms))
   .post('/api/form', asyncHandler(createForm))
   .get('/api/forms/:id', asyncHandler(getSingleForm))
+  .post('/api/answers/:formId', asyncHandler(createAnswer))
 
 export default handler

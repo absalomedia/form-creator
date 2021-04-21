@@ -7,7 +7,8 @@ import AllForms from './Dashboard/AllForms'
 import NoFormsInfo from './Dashboard/NoFormsInfo'
 import ErrorInfo from './Dashboard/ErrorInfo'
 import FormFill from './Form/FormFill'
-
+import FormResults from './FormResults/FormResults'
+import FullScreenSpinner from './Shared/FullScreenSpinner'
 export {
   Layout,
   Navbar,
@@ -18,4 +19,6 @@ export {
   NoFormsInfo,
   ErrorInfo,
   FormFill,
+  FormResults,
+  FullScreenSpinner,
 }

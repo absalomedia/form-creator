@@ -1,5 +1,6 @@
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
-import { Layout, Navbar } from '@components'
+import { Flex } from '@chakra-ui/react'
+import { Layout, Navbar, FormResults, FullScreenSpinner } from '@components'
 import { useRouter } from 'next/router'
 import React from 'react'
 
@@ -10,8 +11,16 @@ const Statistics = () => {
 
   return (
     <Layout title="Formly | Statistics">
-      <Navbar />
-      {id}
+      {!id ? (
+        <FullScreenSpinner />
+      ) : (
+        <>
+          <Navbar />
+          <Flex w="100%" maxW="1200px" margin="100px auto">
+            <FormResults id={id as string} />
+          </Flex>
+        </>
+      )}
     </Layout>
   )
 }

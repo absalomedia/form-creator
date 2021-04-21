@@ -20,23 +20,29 @@ import React, { useState } from 'react'
 
 interface Props {
   form: ISingleForm
+  nextStep: () => void
 }
-const Form = ({ form }: Props) => {
+const Form = ({ form, nextStep }: Props) => {
+  const [loading, setLoading] = useState(false)
+
   const [formFieldsValues, setFormFieldValues] = useState({
     ...form.fields.reduce((acc, val) => {
-      acc[val.name] =
-        val.fieldType === 'checkbox'
-          ? ([] as string[])
-          : val.fieldType === 'number'
-          ? val.min
+      acc[val.name] = {
+        label: val.label,
+        answer:
+          val.fieldType === 'checkbox'
+            ? ([] as string[])
+            : val.fieldType === 'number'
             ? val.min
-            : 0
-          : val.fieldType === 'radio'
-          ? (val.options as IOption[])[0].value
-          : ''
+              ? val.min
+              : 0
+            : val.fieldType === 'radio'
+            ? (val.options as IOption[])[0].value
+            : '',
+      }
 
       return acc
-    }, {} as { [key: string]: number | string[] | string }),
+    }, {} as { [key: string]: { label: string; answer: number | string[] | string } }),
   })
 
   const handleChange = (
@@ -44,8 +50,33 @@ const Form = ({ form }: Props) => {
   ) => {
     setFormFieldValues((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [e.target.name]: {
+        ...prev[e.target.name],
+        answer: e.target.value,
+      },
     }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setLoading(true)
+    try {
+      const response = await fetch(`/api/answers/${form._id}`, {
+        method: 'POST',
+        body: JSON.stringify({ answers: formFieldsValues }),
+        headers: {
+          'content-type': 'application/json',
+        },
+      })
+
+      if (response.ok) {
+        console.log(await response.json())
+        setLoading(false)
+        nextStep()
+      }
+    } catch (error) {
+      setLoading(false)
+    }
   }
 
   return (
@@ -56,19 +87,23 @@ const Form = ({ form }: Props) => {
         display: 'flex',
         flexDirection: 'column',
       }}
-      onSubmit={(e) => {
-        e.preventDefault()
-        console.log(formFieldsValues)
-      }}
+      onSubmit={handleSubmit}
     >
       {form.fields.map((el) =>
         ['date', 'email', 'text', 'textarea'].includes(el.fieldType) ? (
-          <FormControl id={el.id} key={el.id} marginBottom="20px">
+          <FormControl
+            id={el.id}
+            key={el.id}
+            marginBottom="20px"
+            isDisabled={loading}
+          >
             <FormLabel>{el.label}</FormLabel>
             <Input
+              isDisabled={loading}
+              disabled={loading}
               type={el.fieldType}
               name={el.name}
-              value={formFieldsValues[el.name] as string}
+              value={formFieldsValues[el.name].answer as string}
               onChange={handleChange}
               min={el.min}
               max={el.max}
@@ -82,16 +117,24 @@ const Form = ({ form }: Props) => {
           <RadioGroup
             key={el.id}
             onChange={(e) =>
-              setFormFieldValues((prev) => ({ ...prev, [el.name]: e }))
+              setFormFieldValues((prev) => ({
+                ...prev,
+                [el.name]: { ...prev[el.name], answer: e },
+              }))
             }
-            value={formFieldsValues[el.name] as string}
+            value={formFieldsValues[el.name].answer as string}
             name={el.name}
             defaultValue={(el.options as IOption[])[0].value}
           >
             <FormLabel>{el.label}</FormLabel>
             <Stack marginBottom="20px">
               {el.options?.map((el) => (
-                <Radio value={el.value} key={el._id}>
+                <Radio
+                  value={el.value}
+                  key={el._id}
+                  isDisabled={loading}
+                  disabled={loading}
+                >
                   {el.value}
                 </Radio>
               ))}
@@ -103,14 +146,19 @@ const Form = ({ form }: Props) => {
             onChange={(value) =>
               setFormFieldValues((prev) => ({
                 ...prev,
-                [el.name]: value as string[],
+                [el.name]: { ...prev[el.name], answer: value as string[] },
               }))
             }
           >
             <FormLabel>{el.label}</FormLabel>
             <Stack marginBottom="20px">
               {el.options?.map((el) => (
-                <Checkbox value={el.value} key={el._id}>
+                <Checkbox
+                  value={el.value}
+                  key={el._id}
+                  isDisabled={loading}
+                  disabled={loading}
+                >
                   {el.value}
                 </Checkbox>
               ))}
@@ -125,12 +173,14 @@ const Form = ({ form }: Props) => {
               step={1}
               min={el.min}
               max={el.max}
-              defaultValue={formFieldsValues[el.name] as number}
-              value={formFieldsValues[el.name] as number}
+              isDisabled={loading}
+              disabled={loading}
+              defaultValue={formFieldsValues[el.name].answer as number}
+              value={formFieldsValues[el.name].answer as number}
               onChange={(_, valueAsNumber) =>
                 setFormFieldValues((prev) => ({
                   ...prev,
-                  [el.name]: valueAsNumber,
+                  [el.name]: { ...prev[el.name], answer: valueAsNumber },
                 }))
               }
               marginBottom="20px"
@@ -144,7 +194,13 @@ const Form = ({ form }: Props) => {
           </React.Fragment>
         )
       )}
-      <Button width="fit-content" margin="100px auto" type="submit">
+      <Button
+        width="fit-content"
+        margin="100px auto"
+        type="submit"
+        isDisabled={loading}
+        disabled={loading}
+      >
         Save your answers
       </Button>
     </form>
