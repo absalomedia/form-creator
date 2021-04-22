@@ -1,7 +1,8 @@
 import React from 'react'
-import { Button, Flex, Heading, Text } from '@chakra-ui/react'
+import { Button, Center, Flex, Heading, Text } from '@chakra-ui/react'
 import dayjs from 'dayjs'
-
+import Image from 'next/image'
+import Link from 'next/link'
 interface Props {
   title: string
   description: string
@@ -10,6 +11,29 @@ interface Props {
 }
 
 const WelcomeScreen = ({ title, description, nextStep, expiration }: Props) => {
+  const isValid = dayjs(expiration).isAfter(dayjs(Date.now()))
+
+  if (!isValid) {
+    return (
+      <Center w="100%" d="flex" flexDir="column">
+        <Image src="/expired.svg" width={500} height={500} alt="exipred" />
+        <Heading
+          fontSize="26px"
+          textAlign="center"
+          color="facebook.600"
+          as="h5"
+        >
+          Sorry form has expired
+        </Heading>
+        <Link href="/" replace={true}>
+          <Button colorScheme="facebook" size="lg" marginTop="20px">
+            Back to the main page
+          </Button>
+        </Link>
+      </Center>
+    )
+  }
+
   return (
     <Flex w="100%" flexDir="column">
       <Heading as="h3" fontSize="26px" fontWeight={700}>

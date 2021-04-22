@@ -1,8 +1,8 @@
 import databaseMiddleware from './middleware/db'
 import { errorHandler } from './middleware/error'
 import asyncHandler from './asyncHandler'
-import { createForm, getForms, getSingleForm } from './routes/form'
-import { createAnswer } from './routes/answer'
+import { createForm, getForms, getSingleForm, deleteForm } from './routes/form'
+import { createAnswer, getAllFormAnswers } from './routes/answer'
 
 export {
   databaseMiddleware,
@@ -12,4 +12,6 @@ export {
   getForms,
   getSingleForm,
   createAnswer,
+  getAllFormAnswers,
+  deleteForm,
 }

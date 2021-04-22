@@ -70,7 +70,6 @@ const Form = ({ form, nextStep }: Props) => {
       })
 
       if (response.ok) {
-        console.log(await response.json())
         setLoading(false)
         nextStep()
       }

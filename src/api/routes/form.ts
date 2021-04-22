@@ -9,6 +9,8 @@ import { getSession, Session } from '@auth0/nextjs-auth0'
 import { ErrorWithHttpCode } from 'api/middleware/error'
 import { assert } from 'superstruct'
 import FormValidation from 'api/validation/form'
+import { AnswerModel } from '@models'
+import { ObjectId } from 'mongoose'
 
 const createForm = async (
   req: NextApiRequest,
@@ -133,4 +135,32 @@ const getSingleForm = async (
   res.json({ form })
 }
 
-export { createForm, getForms, getSingleForm }
+const deleteForm = async (
+  req: RequestWithParams,
+  res: NextApiResponse,
+  _next: NextHandler
+) => {
+  const { id } = req.params
+
+  const session = getSession(req, res) as Session
+
+  if (!session) {
+    throw new ErrorWithHttpCode('User unauthorized', 401)
+  }
+
+  const form = await Form.findOne({ _id: id, userEmail: session.user.email })
+
+  if (!form) {
+    throw new ErrorWithHttpCode('User unauthorized', 401)
+  }
+
+  await form.delete()
+
+  await AnswerModel.deleteMany({
+    formId: (id as unknown) as ObjectId,
+  })
+
+  res.json({ success: true })
+}
+
+export { createForm, getForms, getSingleForm, deleteForm }

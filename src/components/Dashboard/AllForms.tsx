@@ -5,9 +5,10 @@ import dayjs from 'dayjs'
 import Link from 'next/link'
 interface Props {
   forms: IForm[]
+  handleDelete: (id: string) => Promise<void>
 }
 
-const AllForms = ({ forms }: Props) => {
+const AllForms = ({ forms, handleDelete }: Props) => {
   return (
     <Flex flexDir="column" maxW="1200px" margin="50px auto" w="100%">
       {forms &&
@@ -40,19 +41,29 @@ const AllForms = ({ forms }: Props) => {
                 <b>{dayjs(form.dateOfExpire).format('DD-MM-YYYY')}</b>
               </Text>
             </Box>
+
             <Box d="flex" flexDir="column">
               <Link href={`/dashboard/${form._id}`}>
                 <Button marginBottom="20px">Checkout statistics</Button>
               </Link>
               <Button
+                marginBottom="20px"
                 onClick={() => {
                   typeof window !== 'undefined' &&
                     window.navigator.clipboard.writeText(
-                      `https://form-creator.vercel.app/forms/${form._id}`
+                      `${
+                        process.env.NODE_ENV === 'production'
+                          ? 'https://form-creator.vercel.app/'
+                          : 'http://localhost:3000/'
+                      }forms/${form._id}`
                     )
                 }}
               >
                 Copy link
+              </Button>
+
+              <Button colorScheme="red" onClick={() => handleDelete(form._id)}>
+                Delete form
               </Button>
             </Box>
           </Flex>

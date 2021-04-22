@@ -15,6 +15,10 @@ import { useState } from 'react'
 import Img from 'next/image'
 import { useRouter } from 'next/dist/client/router'
 
+function hasDuplicates(array: string[]) {
+  return Array.from(new Set(array)).length !== array.length
+}
+
 const InputDisplay: React.FC = (): JSX.Element => {
   const { form } = useForm()
   const [title, setTitle] = useState('')
@@ -27,6 +31,11 @@ const InputDisplay: React.FC = (): JSX.Element => {
   const router = useRouter()
 
   const handleCreateNewForm = async () => {
+    if (hasDuplicates(form.map((el) => el.label))) {
+      setError('Inputs contain duplicate labels')
+      return
+    }
+
     setLoading(true)
     setError('')
     try {
@@ -120,11 +129,6 @@ const InputDisplay: React.FC = (): JSX.Element => {
           />
         </Box>
       </Flex>
-      {error && (
-        <Heading margin="100px auto 0 auto" color="red.500" fontSize="28px">
-          {error}
-        </Heading>
-      )}
       <Button
         isLoading={loading}
         isDisabled={
@@ -143,6 +147,11 @@ const InputDisplay: React.FC = (): JSX.Element => {
       >
         Create
       </Button>
+      {error && (
+        <Heading margin="30px auto 0 auto" color="red.500" fontSize="28px">
+          {error}
+        </Heading>
+      )}
     </>
   )
 }

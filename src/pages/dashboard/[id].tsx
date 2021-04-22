@@ -16,7 +16,7 @@ const Statistics = () => {
       ) : (
         <>
           <Navbar />
-          <Flex w="100%" maxW="1200px" margin="100px auto">
+          <Flex w="100%" margin="100px auto" overflow="auto">
             <FormResults id={id as string} />
           </Flex>
         </>
