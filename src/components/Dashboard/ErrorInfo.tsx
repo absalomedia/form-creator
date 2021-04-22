@@ -4,9 +4,9 @@ import Image from 'next/image'
 
 const ErrorInfo = () => {
   return (
-    <Center h="80vh" d="flex" flexDir="column">
+    <Center h="60vh" d="flex" flexDir="column" w="100%">
       <Heading
-        color="red.500"
+        color="facebook.700"
         textAlign="center"
         fontSize="4xl"
         fontWeight={700}

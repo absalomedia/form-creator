@@ -50,7 +50,9 @@ const FormResults = ({ id }: Props) => {
             {data?.answers.map((el) => (
               <Tr key={el._id}>
                 {el.answers.map((el) => (
-                  <Td key={el._id}>{Array.isArray(el) ? el.join(' ') : el}</Td>
+                  <Td key={el._id}>
+                    {Array.isArray(el.answer) ? el.answer.join(' ') : el.answer}
+                  </Td>
                 ))}
               </Tr>
             ))}
