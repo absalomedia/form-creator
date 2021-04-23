@@ -13,6 +13,7 @@ import {
   Radio,
   RadioGroup,
   Stack,
+  Text,
 } from '@chakra-ui/react'
 import { IOption, ISingleForm } from '@hooks'
 import axios from 'axios'
@@ -28,23 +29,22 @@ interface FormFieldsValues {
   [key: string]: { label: string; answer: number | string[] | string }
 }
 const validateAnswers = (form: ISingleForm, values: FormFieldsValues) => {
-  console.log(values)
   form.fields.forEach((el) => {
     const value = values[el.name].answer
     if (el.require) {
       if (!value) {
-        throw Error()
+        throw Error(`${el.label} field is required`)
       }
 
       if (el.fieldType === 'checkbox' && (value as string[]).length === 0) {
-        throw Error()
+        throw Error(`${el.label} field is required`)
       }
     }
     if (el.regexp) {
       const regexp = new RegExp(el.regexp)
 
       if (!regexp.test(String(value))) {
-        throw Error()
+        throw Error(`${el.label} field value is incorrect`)
       }
     }
   })
@@ -54,7 +54,7 @@ const validateAnswers = (form: ISingleForm, values: FormFieldsValues) => {
 
 const Form = ({ form, nextStep }: Props) => {
   const [loading, setLoading] = useState(false)
-
+  const [error, setError] = useState('')
   const [formFieldsValues, setFormFieldValues] = useState({
     ...form.fields.reduce((acc, val) => {
       acc[val.name] = {
@@ -90,10 +90,11 @@ const Form = ({ form, nextStep }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    setError('')
     try {
       validateAnswers(form, formFieldsValues)
     } catch (error) {
-      console.log(error)
+      setError(error.message)
       return
     }
 
@@ -224,6 +225,13 @@ const Form = ({ form, nextStep }: Props) => {
             </NumberInput>
           </React.Fragment>
         )
+      )}
+      {error && (
+        <Text color="red.600">
+          <b>{error}. </b>
+          <br />
+          Correct your answer to procced.
+        </Text>
       )}
       <Button
         width="fit-content"
