@@ -14,6 +14,7 @@ import SignleInput from './SignleInput'
 import { useState } from 'react'
 import Img from 'next/image'
 import { useRouter } from 'next/dist/client/router'
+import axios from 'axios'
 
 function hasDuplicates(array: string[]) {
   return Array.from(new Set(array)).length !== array.length
@@ -39,30 +40,23 @@ const InputDisplay: React.FC = (): JSX.Element => {
     setLoading(true)
     setError('')
     try {
-      const response = await fetch('/api/form', {
-        body: JSON.stringify({
+      await axios.post(
+        '/api/form',
+        {
           title,
           description,
           completeTitle,
           completeDescription,
           dateOfExpire,
           formFields: form,
-        }),
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'content-type': 'application/json',
         },
-      })
-
-      if (!response.ok) {
-        throw new Error('Error occured, check if all fields were fully fufiled')
-      }
+        { withCredentials: true }
+      )
 
       setLoading(false)
       router.push('/dashboard')
     } catch (error) {
-      setError(error.message)
+      setError(error.response.data.message)
       setLoading(false)
     }
   }

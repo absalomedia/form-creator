@@ -1,23 +1,22 @@
+/* eslint-disable no-empty */
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { Center, Spinner } from '@chakra-ui/react'
 import { AllForms, Layout, Navbar, NoFormsInfo, ErrorInfo } from '@components'
 import { IForm, useForms } from '@hooks'
+import axios from 'axios'
 import React from 'react'
 
 const Dashboard = () => {
   const { isLoading, isError, forms, mutate } = useForms()
 
   const handleDelete = async (id: string) => {
-    const response = await fetch(`/api/forms/${id}`, {
-      method: 'DELETE',
-      credentials: 'include',
-    })
+    try {
+      await axios.delete(`/api/forms/${id}`)
 
-    if (response.ok) {
       mutate({
         forms: [...(forms?.forms.filter((form) => form._id !== id) as IForm[])],
       })
-    }
+    } catch (error) {}
   }
 
   return (

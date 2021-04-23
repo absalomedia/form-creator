@@ -15,6 +15,7 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { IOption, ISingleForm } from '@hooks'
+import axios from 'axios'
 
 import React, { useState } from 'react'
 
@@ -22,6 +23,35 @@ interface Props {
   form: ISingleForm
   nextStep: () => void
 }
+
+interface FormFieldsValues {
+  [key: string]: { label: string; answer: number | string[] | string }
+}
+const validateAnswers = (form: ISingleForm, values: FormFieldsValues) => {
+  console.log(values)
+  form.fields.forEach((el) => {
+    const value = values[el.name].answer
+    if (el.require) {
+      if (!value) {
+        throw Error()
+      }
+
+      if (el.fieldType === 'checkbox' && (value as string[]).length === 0) {
+        throw Error()
+      }
+    }
+    if (el.regexp) {
+      const regexp = new RegExp(el.regexp)
+
+      if (!regexp.test(String(value))) {
+        throw Error()
+      }
+    }
+  })
+
+  return true
+}
+
 const Form = ({ form, nextStep }: Props) => {
   const [loading, setLoading] = useState(false)
 
@@ -29,6 +59,7 @@ const Form = ({ form, nextStep }: Props) => {
     ...form.fields.reduce((acc, val) => {
       acc[val.name] = {
         label: val.label,
+
         answer:
           val.fieldType === 'checkbox'
             ? ([] as string[])
@@ -42,7 +73,7 @@ const Form = ({ form, nextStep }: Props) => {
       }
 
       return acc
-    }, {} as { [key: string]: { label: string; answer: number | string[] | string } }),
+    }, {} as FormFieldsValues),
   })
 
   const handleChange = (
@@ -59,20 +90,21 @@ const Form = ({ form, nextStep }: Props) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    try {
+      validateAnswers(form, formFieldsValues)
+    } catch (error) {
+      console.log(error)
+      return
+    }
+
     setLoading(true)
     try {
-      const response = await fetch(`/api/answers/${form._id}`, {
-        method: 'POST',
-        body: JSON.stringify({ answers: formFieldsValues }),
-        headers: {
-          'content-type': 'application/json',
-        },
+      await axios.post(`/api/answers/${form._id}`, {
+        answers: formFieldsValues,
       })
 
-      if (response.ok) {
-        setLoading(false)
-        nextStep()
-      }
+      setLoading(false)
+      nextStep()
     } catch (error) {
       setLoading(false)
     }

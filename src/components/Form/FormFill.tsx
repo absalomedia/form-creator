@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { Flex } from '@chakra-ui/react'
+import { Center, Flex, Spinner } from '@chakra-ui/react'
 import { useSingleForm } from '@hooks'
 import EndingScreen from './EndingScreen'
 import Form from './Form'
 import WelcomeScreen from './WelcomeScreen'
-import dayjs from 'dayjs'
+import { ErrorInfo } from '@components'
+
 interface Props {
   id: string
 }
@@ -19,20 +20,26 @@ const FormFill = ({ id }: Props) => {
         <>
           {step === 0 && (
             <WelcomeScreen
-              title={form.form.title}
-              description={form.form.description}
+              title={form?.form.title}
+              description={form?.form.description}
               nextStep={() => setStep(1)}
-              expiration={form.form.dateOfExpire}
+              expiration={form?.form.dateOfExpire}
             />
           )}
-          {step === 1 && <Form form={form.form} nextStep={() => setStep(2)} />}
+          {step === 1 && <Form form={form?.form} nextStep={() => setStep(2)} />}
           {step === 2 && (
             <EndingScreen
-              title={form.form.completeTitle}
-              description={form.form.completeTitle}
+              title={form?.form.completeTitle}
+              description={form?.form.completeTitle}
             />
           )}
         </>
+      )}
+      {isError && <ErrorInfo />}
+      {isLoading && (
+        <Center h="500px" w="100%">
+          <Spinner size="lg" />
+        </Center>
       )}
     </Flex>
   )
