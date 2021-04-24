@@ -1,9 +1,27 @@
-import { Button, Flex, Text } from '@chakra-ui/react'
+import {
+  Button,
+  Flex,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+  useMediaQuery,
+} from '@chakra-ui/react'
 import React from 'react'
 import Image from 'next/image'
+import {
+  HamburgerIcon,
+  AddIcon,
+  ViewIcon,
+  ArrowBackIcon,
+} from '@chakra-ui/icons'
 import Link from 'next/link'
 
 const Navbar = () => {
+  const [isMobile] = useMediaQuery('(max-width: 768px)')
+
   return (
     <Flex
       w="100%"
@@ -12,7 +30,7 @@ const Navbar = () => {
       alignItems="center"
     >
       <Image src="/logo.png" alt="logo" width="125px" height="125px" />
-      <Flex alignItems="center">
+      <Flex alignItems="center" display={isMobile ? 'none' : 'flex'}>
         {links.map((el, i) => (
           <Text
             fontSize="20px"
@@ -35,6 +53,28 @@ const Navbar = () => {
           </Link>
         </Flex>
       </Flex>
+
+      {isMobile && (
+        <Menu>
+          <MenuButton
+            as={IconButton}
+            aria-label="Options"
+            icon={<HamburgerIcon />}
+            variant="outline"
+          />
+          <MenuList>
+            <Link href="/dashboard">
+              <MenuItem icon={<ViewIcon />}>Go to dashboard</MenuItem>
+            </Link>
+            <Link href="/create">
+              <MenuItem icon={<AddIcon />}>Create new form</MenuItem>
+            </Link>
+            <Link href="/api/auth/logout">
+              <MenuItem icon={<ArrowBackIcon />}>Logout</MenuItem>
+            </Link>
+          </MenuList>
+        </Menu>
+      )}
     </Flex>
   )
 }

@@ -24,12 +24,13 @@ import { deleteInput, deleteOption } from 'store/actions'
 import ValidationPopover from './ValidationPopover'
 interface Props {
   input: IFormField
+  isSmallLaptop: boolean
 }
-const SignleInput = ({ input }: Props) => {
+const SignleInput = ({ input, isSmallLaptop }: Props) => {
   const { dispatch } = useForm()
 
   return (
-    <Flex maxW="400px" mt="30px" flexDir="column">
+    <Flex maxW="400px" mt="30px" flexDir="column" w="100%">
       <Flex justifyContent="space-between" mb="20px">
         <Text fontWeight={700}>Input type: {input.fieldType}</Text>
         <Flex

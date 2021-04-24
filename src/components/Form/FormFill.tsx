@@ -15,7 +15,7 @@ const FormFill = ({ id }: Props) => {
   const [step, setStep] = useState(0)
 
   return (
-    <Flex w="100%" maxW="1200px" margin="50px auto">
+    <Flex w="100%" maxW="1200px" margin="50px auto" p="0 20px">
       {!isLoading && !isError && (
         <>
           {step === 0 && (

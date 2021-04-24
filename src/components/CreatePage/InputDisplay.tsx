@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  Box,
   Button,
   Center,
   Flex,
@@ -8,6 +7,7 @@ import {
   Input,
   Text,
   Textarea,
+  useMediaQuery,
 } from '@chakra-ui/react'
 import { useForm } from '@store'
 import SignleInput from './SignleInput'
@@ -30,6 +30,7 @@ const InputDisplay: React.FC = (): JSX.Element => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
+  const [isSmallLaptop] = useMediaQuery('(max-width: 1024px)')
 
   const handleCreateNewForm = async () => {
     if (hasDuplicates(form.map((el) => el.label))) {
@@ -63,20 +64,42 @@ const InputDisplay: React.FC = (): JSX.Element => {
 
   return (
     <>
-      <Flex width="100%" mt="50px" justifyContent="space-between">
-        <Flex flexDir="column" w="50%" minW="500px">
+      <Flex
+        width="100%"
+        mt="50px"
+        justifyContent={isSmallLaptop ? 'center' : 'space-between'}
+        alignItems={isSmallLaptop ? 'center' : 'flex-start'}
+        p="0 10px"
+        flexDir={isSmallLaptop ? 'column' : 'row'}
+      >
+        <Flex
+          flexDir="column"
+          w={isSmallLaptop ? '100%' : '50%'}
+          alignItems={isSmallLaptop ? 'center' : 'flex-start'}
+        >
           {form.length !== 0 ? (
-            form.map((input) => <SignleInput key={input.id} input={input} />)
+            form.map((input) => (
+              <SignleInput
+                key={input.id}
+                input={input}
+                isSmallLaptop={isSmallLaptop}
+              />
+            ))
           ) : (
             <Center height="600px" d="flex" flexDir="column">
               <Text fontSize="26px" fontWeight="700">
-                Click button above to add input
+                Click button to add input
               </Text>
               <Img src="/add.svg" alt="add" width={400} height={440} />
             </Center>
           )}
         </Flex>
-        <Box minWidth="400px" w="30%">
+        <Flex
+          w={isSmallLaptop ? '100%' : '30%'}
+          maxW="400px"
+          flexDir="column"
+          marginTop={isSmallLaptop ? '30px' : '0'}
+        >
           <Text fontWeight="600">Title</Text>
           <Input
             placeholder="What is the title of your form?"
@@ -121,7 +144,7 @@ const InputDisplay: React.FC = (): JSX.Element => {
             value={dateOfExpire}
             onChange={(e) => setDateOfExpire(e.target.value)}
           />
-        </Box>
+        </Flex>
       </Flex>
       <Button
         isLoading={loading}

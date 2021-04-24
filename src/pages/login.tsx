@@ -3,16 +3,18 @@ import { Layout } from '@components'
 import React from 'react'
 import Image from 'next/image'
 import { Button } from '@chakra-ui/button'
-import { Text } from '@chakra-ui/react'
+import { Text, useMediaQuery } from '@chakra-ui/react'
 import Link from 'next/link'
 import { GetServerSideProps } from 'next'
 import { getSession } from '@auth0/nextjs-auth0'
 
 const Login = () => {
+  const [isMobile] = useMediaQuery('(max-width: 768px)')
+
   return (
     <Layout title="Formly | Login">
-      <Flex minH="100vh" flexDir="column">
-        <Box p={5}>
+      <Flex minH="100vh" flexDir="column" p="0 10px">
+        <Box p={5} d="flex" justifyContent={isMobile ? 'center' : 'flex-start'}>
           <Image src="/logo.png" alt="logo" width="150" height="150" />
         </Box>
         <Flex
@@ -21,14 +23,29 @@ const Login = () => {
           alignItems="center"
           justifyContent="center"
         >
-          <Heading as="h2" fontSize="4xl" textAlign="center" color="gray.800">
+          <Heading
+            as="h2"
+            fontSize={isMobile ? '2xl' : '4xl'}
+            textAlign="center"
+            color="gray.800"
+          >
             Start creating awesome forms!
           </Heading>
-          <Text mt="20px" fontSize="25px" fontWeight="600" color="gray.500">
+          <Text
+            mt="20px"
+            fontSize={isMobile ? 'lg' : 'xl'}
+            fontWeight="600"
+            color="gray.500"
+          >
             Just in few steps
           </Text>
-          <Image src="/login.svg" alt="login" width="500" height="500" />
-          <Button size="lg" colorScheme="purple">
+          <Image
+            src="/login.svg"
+            alt="login"
+            width={isMobile ? '400' : '500'}
+            height={isMobile ? '400' : '500'}
+          />
+          <Button size="lg" colorScheme="facebook">
             <Link href="/api/auth/login">Start with an account</Link>
           </Button>
         </Flex>

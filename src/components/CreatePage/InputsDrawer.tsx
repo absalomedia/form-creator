@@ -1,3 +1,4 @@
+import { PlusSquareIcon } from '@chakra-ui/icons'
 import {
   Button,
   Drawer,
@@ -10,6 +11,7 @@ import {
   useDisclosure,
   Box,
   Text,
+  useMediaQuery,
 } from '@chakra-ui/react'
 import { addNewInput, useForm } from '@store'
 import { Input } from 'models/FormField'
@@ -28,11 +30,22 @@ const inputTypes: { fieldType: Input; description: string }[] = [
 const InputsDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { dispatch } = useForm()
-
+  const [isSmallLaptop] = useMediaQuery('(max-width: 1024px)')
   return (
     <>
-      <Button colorScheme="facebook" onClick={onOpen} size="lg">
-        Click to add input
+      <Button
+        colorScheme="facebook"
+        onClick={onOpen}
+        size="lg"
+        position={isSmallLaptop ? 'fixed' : 'static'}
+        bottom={10}
+        right={50}
+        zIndex={1000}
+        borderRadius={isSmallLaptop ? '50%' : '10px'}
+        width={isSmallLaptop ? '60px' : 'fit-content'}
+        height={isSmallLaptop ? '60px' : '50px'}
+      >
+        {isSmallLaptop ? <PlusSquareIcon /> : 'Click to add input'}
       </Button>
       <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerOverlay>

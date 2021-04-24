@@ -1,72 +1,26 @@
-import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react'
+import { Flex, useMediaQuery } from '@chakra-ui/react'
 import { IForm } from '@hooks'
 import React from 'react'
-import dayjs from 'dayjs'
-import Link from 'next/link'
+import SingleForm from './SingleForm'
+
 interface Props {
   forms: IForm[]
   handleDelete: (id: string) => Promise<void>
 }
 
 const AllForms = ({ forms, handleDelete }: Props) => {
+  const [isPhone] = useMediaQuery('(max-width: 500px)')
+
   return (
-    <Flex flexDir="column" maxW="1200px" margin="50px auto" w="100%">
+    <Flex flexDir="column" maxW="1200px" margin="50px auto" w="100%" p="0 20px">
       {forms &&
         forms.map((form) => (
-          <Flex
-            w="100%"
+          <SingleForm
+            form={form}
+            handleDelete={handleDelete}
             key={form._id}
-            alignItems="center"
-            justifyContent="space-between"
-            p={8}
-            borderStyle="solid"
-            borderWidth="2px"
-            borderRadius="8px"
-            borderColor="facebook.400"
-            marginTop="20px"
-          >
-            <Box>
-              <Heading as="h4" fontSize="md" fontWeight={400}>
-                Title: <b>{form.title}</b>
-              </Heading>
-              <Text>
-                Description: <b>{form.description}</b>
-              </Text>
-              <Text>
-                Date of creation:{' '}
-                <b>{dayjs(form.createdAt).format('DD-MM-YYYY')}</b>
-              </Text>
-              <Text>
-                Date of exipre:{' '}
-                <b>{dayjs(form.dateOfExpire).format('DD-MM-YYYY')}</b>
-              </Text>
-            </Box>
-
-            <Box d="flex" flexDir="column">
-              <Link href={`/dashboard/${form._id}`}>
-                <Button marginBottom="20px">Checkout statistics</Button>
-              </Link>
-              <Button
-                marginBottom="20px"
-                onClick={() => {
-                  typeof window !== 'undefined' &&
-                    window.navigator.clipboard.writeText(
-                      `${
-                        process.env.NODE_ENV === 'production'
-                          ? 'https://form-creator.vercel.app/'
-                          : 'http://localhost:3000/'
-                      }forms/${form._id}`
-                    )
-                }}
-              >
-                Copy link
-              </Button>
-
-              <Button colorScheme="red" onClick={() => handleDelete(form._id)}>
-                Delete form
-              </Button>
-            </Box>
-          </Flex>
+            isPhone={isPhone}
+          />
         ))}
     </Flex>
   )
