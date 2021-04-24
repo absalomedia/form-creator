@@ -122,13 +122,6 @@ const reducer = (state: IFormField[], action: Actions) => {
       return [...state]
   }
 }
-interface IFormData {
-  title: string
-  description: string
-  completeTitle: string
-  completeDescription: string
-  dateOfExpire: string
-}
 
 const FormCtx = createContext<{
   form: IFormField[]

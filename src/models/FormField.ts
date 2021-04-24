@@ -27,8 +27,8 @@ export interface IFormField extends Document {
   fieldType: Input
   options?: IOption[]
   name: string
-  max?: number
-  min?: number
+  max?: number | string
+  min?: number | string
   regexp?: string
   placeholder?: string
 }
@@ -48,9 +48,8 @@ export const FormField = new Schema<IFormField, FormFieldModel>(
       enum: InputArr,
     },
     regexp: { type: String, required: false },
-    min: { type: Number, required: false },
-    max: { type: Number, required: false },
-    maxLength: { type: Number, required: false },
+    min: { type: Schema.Types.Mixed, required: false },
+    max: { type: Schema.Types.Mixed, required: false },
     options: {
       type: [OptionModel],
       required: function (this: IFormField) {

@@ -39,7 +39,6 @@ const createForm = async (
       FormValidation
     )
   } catch (error) {
-    console.log(error)
     throw new ErrorWithHttpCode(
       'Form properties does not match given schema',
       400
@@ -53,13 +52,15 @@ const createForm = async (
   }
 
   const fields = (formFields as IFormField[]).map((el) => {
-    const { options, required, id, ...rest } = el
+    const { options, required, id, min, max, ...rest } = el
 
     const newField = new FormField({
       ...rest,
       name: rest.label.toLowerCase().split(' ').join('-'),
       require: required,
       id,
+      min,
+      max,
     })
 
     if (options) {

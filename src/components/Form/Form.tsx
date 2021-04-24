@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react'
 import { IOption, ISingleForm } from '@hooks'
 import axios from 'axios'
+import dayjs from 'dayjs'
 
 import React, { useState } from 'react'
 
@@ -45,6 +46,33 @@ const validateAnswers = (form: ISingleForm, values: FormFieldsValues) => {
 
       if (!regexp.test(String(value))) {
         throw Error(`${el.label} field value is incorrect`)
+      }
+    }
+
+    if (el.min) {
+      if (el.fieldType === 'text' || el.fieldType === 'textarea') {
+        if ((value as string).length < el.min) {
+          throw Error(`${el.label} field must be atleast ${el.min} characters`)
+        }
+      }
+      if (el.fieldType === 'date') {
+        if (dayjs(value as string).isBefore(dayjs(el.min))) {
+          throw Error(`${el.label} field must be date after ${el.min} `)
+        }
+      }
+    }
+
+    if (el.max) {
+      if (el.fieldType === 'text' || el.fieldType === 'textarea') {
+        if ((value as string).length > el.max) {
+          throw Error(`${el.label} field can be max ${el.max} characters`)
+        }
+      }
+
+      if (el.fieldType === 'date') {
+        if (dayjs(value as string).isAfter(dayjs(el.max))) {
+          throw Error(`${el.label} field must be date before ${el.max} `)
+        }
       }
     }
   })
@@ -76,6 +104,7 @@ const Form = ({ form, nextStep }: Props) => {
     }, {} as FormFieldsValues),
   })
 
+  console.log(form)
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -230,7 +259,7 @@ const Form = ({ form, nextStep }: Props) => {
         <Text color="red.600">
           <b>{error}. </b>
           <br />
-          Correct your answer to procced.
+          Correct your answer to procceed.
         </Text>
       )}
       <Button

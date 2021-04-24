@@ -40,6 +40,7 @@ const InputDisplay: React.FC = (): JSX.Element => {
 
     setLoading(true)
     setError('')
+
     try {
       await axios.post(
         '/api/form',
