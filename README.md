@@ -18,3 +18,12 @@ Nextjs app allowing user to create custom forms like those at Google Forms. Usin
 3. Creating, deleting forms.
 4. Statistics in table.
 5. Multiple validation options of inputs.
+
+#### ENV vars to run project:
+
+1. DATEBASE_URI = ''
+2. AUTH0_SECRET= ''
+3. AUTH0_BASE_URL= ''
+4. AUTH0_ISSUER_BASE_URL= ''
+5. AUTH0_CLIENT_ID= ''
+6. AUTH0_CLIENT_SECRET= ''
