@@ -8,6 +8,7 @@ import {
   Flex,
   Radio,
   Text,
+  Textarea,
 } from '@chakra-ui/react'
 import { DeleteIcon } from '@chakra-ui/icons'
 import { OptionInput } from '@components'
@@ -50,15 +51,28 @@ const SignleInput = ({ input }: Props) => {
         <EditableInput w="100%" />
       </Editable>
       {input.fieldType !== 'checkbox' && input.fieldType !== 'radio' ? (
-        <Input
-          placeholder="Type placeholder of the input here"
-          type="text"
-          mt="10px"
-          value={input.placeholder}
-          onChange={(e) =>
-            dispatch(handlePlaceholderChange(input.id, e.target.value))
-          }
-        />
+        input.fieldType === 'textarea' ? (
+          <Textarea
+            placeholder="Type placeholder of the input here"
+            rows={5}
+            resize="none"
+            mt="10px"
+            value={input.placeholder}
+            onChange={(e) =>
+              dispatch(handlePlaceholderChange(input.id, e.target.value))
+            }
+          />
+        ) : (
+          <Input
+            placeholder="Type placeholder of the input here"
+            mt="10px"
+            type="text"
+            value={input.placeholder}
+            onChange={(e) =>
+              dispatch(handlePlaceholderChange(input.id, e.target.value))
+            }
+          />
+        )
       ) : (
         <OptionInput id={input.id} />
       )}
