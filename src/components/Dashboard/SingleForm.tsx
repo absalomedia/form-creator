@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import { IForm } from '@hooks'
+import WarnDialog from 'components/Shared/WarnDialog'
 
 interface Props {
   form: IForm
@@ -61,9 +62,7 @@ const SingleForm = ({ form, handleDelete, isPhone }: Props) => {
           {hasCopied ? 'Link copied' : 'Copy link'}
         </Button>
 
-        <Button colorScheme="red" onClick={() => handleDelete(form._id)}>
-          Delete form
-        </Button>
+        <WarnDialog close={() => handleDelete(form._id)} />
       </Box>
     </Flex>
   )
