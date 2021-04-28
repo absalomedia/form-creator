@@ -79,13 +79,7 @@ const InputDisplay: React.FC = (): JSX.Element => {
           alignItems={isSmallLaptop ? 'center' : 'flex-start'}
         >
           {form.length !== 0 ? (
-            form.map((input) => (
-              <SignleInput
-                key={input.id}
-                input={input}
-                isSmallLaptop={isSmallLaptop}
-              />
-            ))
+            form.map((input) => <SignleInput key={input.id} input={input} />)
           ) : (
             <Center height="600px" d="flex" flexDir="column">
               <Text fontSize="26px" fontWeight="700">

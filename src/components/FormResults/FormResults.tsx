@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   Table,
   TableCaption,
@@ -9,9 +10,8 @@ import {
   Center,
 } from '@chakra-ui/react'
 import { useSingleFormDetails } from '@hooks'
-import ErrorInfo from 'components/Dashboard/ErrorInfo'
-import React from 'react'
 import TableTr from './TableTr'
+import ErrorInfo from 'components/Dashboard/ErrorInfo'
 interface Props {
   id: string
 }

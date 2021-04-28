@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { Input } from 'models/FormField'
+import { IFormField } from '@types'
 import React, { createContext, useContext } from 'react'
 import { useReducer } from 'react'
 import { v4 as uuidv4 } from 'uuid'
@@ -13,19 +13,6 @@ import {
   PLACEHOLDER_CHANGE,
   UPDATE_VALIDATION,
 } from './constants'
-
-export interface IFormField {
-  id: string
-  label: string
-  required: boolean
-  fieldType: Input
-  options?: string[]
-  name: string
-  max?: string
-  min?: string
-  regexp?: string
-  placeholder?: string
-}
 
 type Actions =
   | { type: typeof NEW_INPUT; payload: { inputType: string } }

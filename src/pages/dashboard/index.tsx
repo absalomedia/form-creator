@@ -1,10 +1,11 @@
 /* eslint-disable no-empty */
+import axios from 'axios'
+import React from 'react'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { Center, Spinner } from '@chakra-ui/react'
 import { AllForms, Layout, Navbar, NoFormsInfo, ErrorInfo } from '@components'
-import { IForm, useForms } from '@hooks'
-import axios from 'axios'
-import React from 'react'
+import { useForms } from '@hooks'
+import { IForm } from '@types'
 
 const Dashboard = () => {
   const { isLoading, isError, forms, mutate } = useForms()

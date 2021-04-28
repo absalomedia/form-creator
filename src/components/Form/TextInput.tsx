@@ -1,16 +1,11 @@
-import { FormControl, FormLabel, Input } from '@chakra-ui/react'
-import { ISingleField } from '@hooks'
 import React, { ChangeEvent, memo } from 'react'
+import { FormControl, FormLabel, Input } from '@chakra-ui/react'
+import { FormFieldsValues, ISingleField } from '@types'
 
 interface Props {
   el: ISingleField
   loading: boolean
-  formFieldsValues: {
-    [x: string]: {
-      label: string
-      answer: number | string[] | string
-    }
-  }
+  formFieldsValues: FormFieldsValues
   handleChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
 }
 

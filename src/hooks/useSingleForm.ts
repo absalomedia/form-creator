@@ -1,32 +1,5 @@
-import { Input } from '@models'
+import { ISingleForm } from '@types'
 import useSWR from 'swr'
-
-export interface IOption {
-  _id: string
-  value: string
-}
-export interface ISingleField {
-  id: string
-  label: string
-  require: boolean
-  fieldType: Input
-  options?: IOption[]
-  name: string
-  max?: number
-  min?: number
-  regexp?: string
-  placeholder?: string
-}
-
-export interface ISingleForm {
-  _id: string
-  title: string
-  description: string
-  completeTitle: string
-  completeDescription: string
-  dateOfExpire: Date
-  fields: ISingleField[]
-}
 
 const useSingleForm = (id: string) => {
   const { data, error } = useSWR<{ form: ISingleForm }>(`/api/forms/${id}`)

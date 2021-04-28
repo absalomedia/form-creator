@@ -1,3 +1,4 @@
+import React, { memo } from 'react'
 import {
   Editable,
   EditablePreview,
@@ -16,17 +17,15 @@ import {
   handleCheckboxChange,
   handleLabelChange,
   handlePlaceholderChange,
-  IFormField,
   useForm,
 } from '@store'
-import React from 'react'
 import { deleteInput, deleteOption } from 'store/actions'
 import ValidationPopover from './ValidationPopover'
+import { IFormField } from '@types'
 interface Props {
   input: IFormField
-  isSmallLaptop: boolean
 }
-const SignleInput = ({ input, isSmallLaptop }: Props) => {
+const SignleInput = memo<Props>(({ input }) => {
   const { dispatch } = useForm()
 
   return (
@@ -128,6 +127,8 @@ const SignleInput = ({ input, isSmallLaptop }: Props) => {
       <Divider colorScheme="facebook" mt="30px" />
     </Flex>
   )
-}
+})
+
+SignleInput.displayName = 'Signle Input'
 
 export default SignleInput

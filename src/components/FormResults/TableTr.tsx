@@ -1,7 +1,7 @@
-import { Tr, Td } from '@chakra-ui/react'
-import { Answer } from '@hooks'
-import dayjs from 'dayjs'
 import React, { memo } from 'react'
+import dayjs from 'dayjs'
+import { Tr, Td } from '@chakra-ui/react'
+import { Answer } from '@types'
 
 interface Props {
   el: Answer

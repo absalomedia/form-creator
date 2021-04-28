@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import React from 'react'
 import {
   Button,
   AlertDialogOverlay,
@@ -8,7 +9,6 @@ import {
   AlertDialogFooter,
   AlertDialog,
 } from '@chakra-ui/react'
-import React from 'react'
 
 interface Props {
   close: () => Promise<void>

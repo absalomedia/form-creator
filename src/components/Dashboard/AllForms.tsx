@@ -1,5 +1,5 @@
 import { Flex, useMediaQuery } from '@chakra-ui/react'
-import { IForm } from '@hooks'
+import { IForm } from '@types'
 import React from 'react'
 import SingleForm from './SingleForm'
 

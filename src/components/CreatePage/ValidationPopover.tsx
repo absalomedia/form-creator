@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import {
   Button,
   Flex,
@@ -16,9 +17,8 @@ import {
   NumberInputField,
   NumberInputStepper,
 } from '@chakra-ui/react'
-import { IFormField, updateValidation, useForm } from '@store'
-import React from 'react'
-import { useState } from 'react'
+import { updateValidation, useForm } from '@store'
+import { IFormField } from '@types'
 
 interface Props {
   input: IFormField

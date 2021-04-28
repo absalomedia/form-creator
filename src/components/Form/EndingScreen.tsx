@@ -6,7 +6,7 @@ interface Props {
   description: string
 }
 
-const EndingScreen = ({ title, description }: Props) => {
+const EndingScreen = React.memo<Props>(({ title, description }) => {
   return (
     <Flex w="100%" flexDir="column">
       <Heading as="h3" fontSize="26px" fontWeight={700}>
@@ -22,6 +22,8 @@ const EndingScreen = ({ title, description }: Props) => {
       </Link>
     </Flex>
   )
-}
+})
+
+EndingScreen.displayName = 'Ending screen'
 
 export default EndingScreen

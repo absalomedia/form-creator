@@ -1,3 +1,7 @@
+import React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useUser } from '@auth0/nextjs-auth0'
 import {
   Button,
   Flex,
@@ -9,8 +13,6 @@ import {
   Text,
   useMediaQuery,
 } from '@chakra-ui/react'
-import React from 'react'
-import Image from 'next/image'
 import {
   HamburgerIcon,
   AddIcon,
@@ -18,12 +20,11 @@ import {
   ArrowBackIcon,
   ArrowForwardIcon,
 } from '@chakra-ui/icons'
-import Link from 'next/link'
-import { useUser } from '@auth0/nextjs-auth0'
 
 const Navbar = () => {
   const [isMobile] = useMediaQuery('(max-width: 768px)')
   const { user, isLoading } = useUser()
+
   return (
     <Flex
       w="100%"

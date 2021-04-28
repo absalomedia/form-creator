@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import {
   Button,
   Checkbox,
@@ -13,11 +14,9 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { IOption, ISingleForm } from '@hooks'
 import axios from 'axios'
 import dayjs from 'dayjs'
-
-import React, { useState } from 'react'
+import { FormFieldsValues, IOption, ISingleForm } from '@types'
 import TextInput from './TextInput'
 
 interface Props {
@@ -25,9 +24,6 @@ interface Props {
   nextStep: () => void
 }
 
-interface FormFieldsValues {
-  [key: string]: { label: string; answer: number | string[] | string }
-}
 const validateAnswers = (form: ISingleForm, values: FormFieldsValues) => {
   form.fields.forEach((el) => {
     const value = values[el.name].answer

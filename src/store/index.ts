@@ -1,4 +1,4 @@
-import FormProvider, { IFormField, useForm } from './FormProvider'
+import FormProvider, { useForm } from './FormProvider'
 import {
   addNewInput,
   handleCheckboxChange,
@@ -20,4 +20,3 @@ export {
   deleteOption,
   updateValidation,
 }
-export type { IFormField }

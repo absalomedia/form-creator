@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Box, Button, Input } from '@chakra-ui/react'
 import { useState } from 'react'
 import { handleAddingNewOption, useForm } from '@store'
@@ -6,7 +6,8 @@ import { handleAddingNewOption, useForm } from '@store'
 interface Props {
   id: string
 }
-const OptionInput = ({ id }: Props) => {
+
+const OptionInput = memo<Props>(({ id }) => {
   const [option, setOption] = useState('')
   const { dispatch } = useForm()
   return (
@@ -30,6 +31,8 @@ const OptionInput = ({ id }: Props) => {
       </Button>
     </Box>
   )
-}
+})
+
+OptionInput.displayName = 'Option Input'
 
 export default OptionInput

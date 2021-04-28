@@ -9,14 +9,15 @@ import {
   useClipboard,
 } from '@chakra-ui/react'
 import Link from 'next/link'
-import { IForm } from '@hooks'
 import WarnDialog from 'components/Shared/WarnDialog'
+import { IForm } from '@types'
 
 interface Props {
   form: IForm
   handleDelete: (id: string) => Promise<void>
   isPhone: boolean
 }
+
 const SingleForm = memo<Props>(({ form, handleDelete, isPhone }) => {
   const { hasCopied, onCopy } = useClipboard(
     `${
