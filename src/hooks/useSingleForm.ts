@@ -5,6 +5,18 @@ export interface IOption {
   _id: string
   value: string
 }
+export interface ISingleField {
+  id: string
+  label: string
+  require: boolean
+  fieldType: Input
+  options?: IOption[]
+  name: string
+  max?: number
+  min?: number
+  regexp?: string
+  placeholder?: string
+}
 
 export interface ISingleForm {
   _id: string
@@ -13,18 +25,7 @@ export interface ISingleForm {
   completeTitle: string
   completeDescription: string
   dateOfExpire: Date
-  fields: {
-    id: string
-    label: string
-    require: boolean
-    fieldType: Input
-    options?: IOption[]
-    name: string
-    max?: number
-    min?: number
-    regexp?: string
-    placeholder?: string
-  }[]
+  fields: ISingleField[]
 }
 
 const useSingleForm = (id: string) => {

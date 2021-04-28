@@ -6,7 +6,7 @@ export interface AuthorForm extends ISingleForm {
   updatedAt: Date
 }
 
-interface Answer {
+export interface Answer {
   _id: string
   createdAt: Date
   answers: {

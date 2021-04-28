@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import dayjs from 'dayjs'
 import {
   Flex,
@@ -17,7 +17,7 @@ interface Props {
   handleDelete: (id: string) => Promise<void>
   isPhone: boolean
 }
-const SingleForm = ({ form, handleDelete, isPhone }: Props) => {
+const SingleForm = memo<Props>(({ form, handleDelete, isPhone }) => {
   const { hasCopied, onCopy } = useClipboard(
     `${
       process.env.NODE_ENV === 'production'
@@ -66,6 +66,8 @@ const SingleForm = ({ form, handleDelete, isPhone }: Props) => {
       </Box>
     </Flex>
   )
-}
+})
+
+SingleForm.displayName = 'Single form'
 
 export default SingleForm

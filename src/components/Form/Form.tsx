@@ -2,9 +2,7 @@ import {
   Button,
   Checkbox,
   CheckboxGroup,
-  FormControl,
   FormLabel,
-  Input,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
@@ -20,6 +18,7 @@ import axios from 'axios'
 import dayjs from 'dayjs'
 
 import React, { useState } from 'react'
+import TextInput from './TextInput'
 
 interface Props {
   form: ISingleForm
@@ -104,7 +103,6 @@ const Form = ({ form, nextStep }: Props) => {
     }, {} as FormFieldsValues),
   })
 
-  console.log(form)
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -152,28 +150,13 @@ const Form = ({ form, nextStep }: Props) => {
     >
       {form.fields.map((el) =>
         ['date', 'email', 'text', 'textarea'].includes(el.fieldType) ? (
-          <FormControl
-            id={el.id}
+          <TextInput
+            handleChange={handleChange}
+            loading={loading}
+            formFieldsValues={formFieldsValues}
             key={el.id}
-            marginBottom="20px"
-            isDisabled={loading}
-          >
-            <FormLabel>{el.label}</FormLabel>
-            <Input
-              isDisabled={loading}
-              disabled={loading}
-              type={el.fieldType}
-              name={el.name}
-              value={formFieldsValues[el.name].answer as string}
-              onChange={handleChange}
-              min={el.min}
-              max={el.max}
-              placeholder={el.placeholder}
-              as={el.fieldType === 'textarea' ? 'textarea' : 'input'}
-              required={el.require}
-              isRequired={el.require}
-            />
-          </FormControl>
+            el={el}
+          />
         ) : el.fieldType === 'radio' ? (
           <RadioGroup
             key={el.id}

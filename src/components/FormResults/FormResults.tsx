@@ -2,7 +2,6 @@ import {
   Table,
   TableCaption,
   Tbody,
-  Td,
   Th,
   Thead,
   Tr,
@@ -12,7 +11,7 @@ import {
 import { useSingleFormDetails } from '@hooks'
 import ErrorInfo from 'components/Dashboard/ErrorInfo'
 import React from 'react'
-import dayjs from 'dayjs'
+import TableTr from './TableTr'
 interface Props {
   id: string
 }
@@ -47,14 +46,7 @@ const FormResults = ({ id }: Props) => {
       </TableCaption>
       <Tbody>
         {data?.answers.map((el) => (
-          <Tr key={el._id}>
-            {el.answers.map((el) => (
-              <Td key={el._id}>
-                {Array.isArray(el.answer) ? el.answer.join(' ') : el.answer}
-              </Td>
-            ))}
-            <Td>{dayjs(el.createdAt).format('MM-DD-YYYY HH:mm:ss')}</Td>
-          </Tr>
+          <TableTr el={el} key={el._id} />
         ))}
       </Tbody>
     </Table>

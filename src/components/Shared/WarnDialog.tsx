@@ -14,7 +14,7 @@ interface Props {
   close: () => Promise<void>
 }
 
-const WarnDialog = ({ close }: Props) => {
+const WarnDialog = React.memo<Props>(({ close }) => {
   const [isOpen, setIsOpen] = React.useState(false)
   const cancelRef = React.useRef<any>()
 
@@ -45,7 +45,7 @@ const WarnDialog = ({ close }: Props) => {
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
+              <Button ref={cancelRef} onClick={() => setIsOpen(false)}>
                 Cancel
               </Button>
               <Button colorScheme="red" onClick={onClose} ml={3}>
@@ -57,6 +57,8 @@ const WarnDialog = ({ close }: Props) => {
       </AlertDialog>
     </>
   )
-}
+})
+
+WarnDialog.displayName = 'Warn dialog'
 
 export default WarnDialog

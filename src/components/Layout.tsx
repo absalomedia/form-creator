@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react'
-import React from 'react'
+import React, { memo } from 'react'
 import { NextSeo } from 'next-seo'
 
 interface LayoutProps {
@@ -7,7 +7,7 @@ interface LayoutProps {
   children: React.ReactNode
 }
 
-const Layout = ({ title, children }: LayoutProps) => {
+const Layout = memo<LayoutProps>(({ title, children }) => {
   return (
     <>
       <NextSeo title={title} />
@@ -16,6 +16,8 @@ const Layout = ({ title, children }: LayoutProps) => {
       </Flex>
     </>
   )
-}
+})
+
+Layout.displayName = 'Layout'
 
 export default Layout
