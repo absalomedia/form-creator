@@ -4,5 +4,10 @@
     "lib": ["es5", "dom"],
     "types": ["cypress"]
   },
-  "include": ["**/*.ts"]
+  "include": [
+    "**/*.ts",
+    "support/index.js",
+    "support/commands.js",
+    "plugins/index.js"
+  ]
 }
