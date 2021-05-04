@@ -30,6 +30,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@testing-library/cypress": "^7.0.6",
     "@types/axios": "^0.14.0",
     "@types/mongoose": "^5.10.4",
     "@types/react": "^17.0.3",
