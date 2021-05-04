@@ -2,7 +2,6 @@
 import OptionModel from 'models/Option'
 import FormField from 'models/FormField'
 import Form from 'models/Form'
-import { IFormField } from '@store'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { NextHandler } from 'next-connect'
 import { getSession, Session } from '@auth0/nextjs-auth0'
@@ -11,6 +10,7 @@ import { assert } from 'superstruct'
 import FormValidation from 'api/validation/form'
 import { AnswerModel } from '@models'
 import { ObjectId } from 'mongoose'
+import { IFormField } from '@types'
 
 const createForm = async (
   req: NextApiRequest,
